@@ -1,0 +1,30 @@
+{% extends "site_base.html" %}
+
+{% block body %}
+<div id="content-main">
+   	<div class="col-md-10 col-md-offset-1">
+		<div id="navi" class="row">
+		   		<a href="{{from_url}}" class="btn btn-danger large">返回</a>
+		   		<!-- 分类信息 -->
+		    	<a href="{% url "info.by_area" info.info_area.pk 1 %}" class="btn btn-info">
+		    		地区：{{info.info_area}} <span class="badge">{{area_num}}</span>
+		    	</a>
+				<a href="{% url "info.by_class" info.info_class.pk 1 %}" class="btn btn-info">
+					类别：{{info.info_class}} <span class="badge">{{class_num}}</span>
+				</a>
+		</div>
+		<br>
+	   	<div class="row">
+	   		<h2>{{info}}</h2>
+		</div>
+	   	<div class="row">
+	   		<pre style="background-color:white">{{info.content}}</pre>
+	   	</div>
+	   	
+	   	<div class="row">
+	   		<a class="btn btn-warning btn-xs pull-right" disabled="disabled">访问次数：<span class="badge" >{{info.view_times}}</span></a>
+			<a class="btn btn-warning btn-xs pull-right" style="margin-right:5px" disabled="disabled">发布时间：{{info.pub_date|date:"Y M d"}}</a>
+    	</div>
+   	</div>
+</div>
+{% endblock %}

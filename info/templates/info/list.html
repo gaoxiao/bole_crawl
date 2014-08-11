@@ -1,0 +1,56 @@
+{% extends "site_base.html" %}
+
+{% block body %}
+<div id="content-main">
+	<!-- info 列表 -->
+    {% for info in info_list %}
+   	<div class="col-md-8 col-md-offset-2">
+    	<a href="{% url "info.detail" info.pk request.path %}" class="btn btn-default"><h4>{{info}}</h4></a>
+    	<h6>{{info.content|truncatechars:200}}</h6>
+    	
+    	<!-- 分类信息 -->
+    	<a href="{% url "info.by_area" info.info_area.pk 1 %}" class="btn btn-info btn-xs">地区：{{info.info_area}}</a>
+		<a href="{% url "info.by_class" info.info_class.pk 1 %}" class="btn btn-info btn-xs">类别：{{info.info_class}}</a>
+		
+		<!-- view times -->
+		<a class="btn btn-warning btn-xs pull-right" disabled="disabled">访问次数：<span class="badge" >{{info.view_times}}</span></a>
+		<a class="btn btn-warning btn-xs pull-right" style="margin-right:5px" disabled="disabled">发布时间：{{info.pub_date|date:"Y M d"}}</a>
+    	<hr>
+   	</div>
+    {% endfor %}
+    
+    <!-- 分页 -->
+    <div id="pagination" class="col-md-8 col-md-offset-2">
+		<ul class="pagination">
+		
+		<!-- index page -->
+		{% if query_id == None %}
+			<li><a href="{% url url_name prev_page %}">&laquo;</a></li>
+			{% for idx in page_range %}
+				<!-- 是否为选中状态 -->
+				{% if curr_page == idx %}
+				<li class="active"><a href="{% url url_name idx %}">{{idx}}</a></li>
+				{% else %}
+				<li><a href="{% url url_name idx %}">{{idx}}</a></li>
+				{% endif %}
+			{% endfor %}
+			<li><a href="{% url url_name next_page %}">&raquo;</a></li>
+		
+		<!-- query page -->
+		{% else %}
+			<li><a href="{% url url_name query_id prev_page %}">&laquo;</a></li>
+			{% for idx in page_range %}
+				<!-- 是否为选中状态 -->
+				{% if curr_page == idx %}
+				<li class="active"><a href="{% url url_name query_id idx %}">{{idx}}</a></li>
+				{% else %}
+				<li><a href="{% url url_name query_id idx %}">{{idx}}</a></li>
+				{% endif %}
+			{% endfor %}
+			<li><a href="{% url url_name query_id next_page %}">&raquo;</a></li>
+		{% endif %}
+		</ul>
+	</div>
+</div>
+
+{% endblock %}
